@@ -1,0 +1,173 @@
+
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand">Yeah, it's not Reddit</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+  <div class="pull-right" ng-click="$ctrl.toggle()">
+    <p><a class="btn btn-info">New Post</a></p>
+  </div>
+
+  <ul class="nav nav-pills">
+    <li role="presentation" class="active">
+      <input type="search" class="form-control input-sm search-form" placeholder="Filter" ng-model="$ctrl.filter">
+    </li>
+
+
+    <li class="dropdown form-inline" ng-init="sort='votes' ; sortName='Votes'">
+       <a class="dropdown-toggle" data-toggle="dropdown" role="button">Sort By {{$ctrl.checkSort()}}<span class="caret"></span></a>
+       <ul class="dropdown-menu">
+         <li><a ng-click="$ctrl.sort='vote_count'">Votes</a></li>
+         <!-- <li><a ng-click="$ctrl.sort='Date'">Date</a></li> -->
+         <li><a ng-click="$ctrl.sort='title'">Title</a></li>
+       </ul>
+     </li>
+
+  </ul>
+
+  <div class="row" ng-if="$ctrl.makingNew">
+    <div class="col-md-8">
+
+      <form name="$ctrl.makeNewPost" novalidate required>
+        <div>
+          <label for="title">Title</label>
+          <input id="title" ng-model="$ctrl.newPost.title" class="form-control" required>
+        </div>
+        <div>
+          <label for="body">Body</label>
+          <textarea id="body" ng-model="$ctrl.newPost.body" class="form-control"  required></textarea>
+        </div>
+        <div>
+          <label for="author">Author</label>
+          <input id="author" ng-model="$ctrl.newPost.author" class="form-control" required>
+        </div>
+        <div>
+          <label for="image-url">Image URL</label>
+          <input id="image-url" class="form-control" ng-model="$ctrl.newPost.image_url" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" ng-click="$ctrl.addPost()" ng-disabled="$ctrl.makeNewPost.$invalid" ng-class="{'has-error' : $ctrl.makeNewPost.$invalid}">
+            <!-- ng-if="$ctrl.makeNewPost.$valid" -->
+            Create Post
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <div class="row" ng-repeat="post in $ctrl.posts | filter:$ctrl.filter | orderBy:$ctrl.sort">
+    <div class="col-md-12">
+      <div class="well" id="{{post.id}}">
+        <div class="media-left">
+          <img class="media-object" src="{{post.image_url}}">
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            {{post.title}}
+            |
+            <a ><i ng-click="$ctrl.upvote($event, post)" class="glyphicon glyphicon-arrow-up"></i></a>
+            <a ng-click="$ctrl.downvote($event, post)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+            {{post.vote_count}}
+          </h4>
+          <div class="text-right">
+            {{post.author}}
+          </div>
+            <p>
+              {{post.body}}
+            </p>
+          <div>
+            <span am-time-ago="post.created_at"></span>
+            <!-- {{post.created_at}} -->
+            |
+            <i class="glyphicon glyphicon-comment"></i>
+            <a ng-click="$ctrl.showComments($event, post)">
+              {{post.comments.length}} Comments
+            </a>
+            |
+            <a ng-click="$ctrl.toggleEditing($event, post);">edit</a>
+            |
+            <a ng-click="$ctrl.removePost($event, post)">remove</a>
+          </div>
+
+
+
+          <div class="row" ng-if="post.editing">
+
+            <div class="col-md-offset-1">
+              <hr>
+              <form name="$ctrl.editPost" novalidate required>
+                <div>
+                  <label for="title">Title</label>
+                  <input ng-init="edit.title= post.title"  ng-model="edit.title" class="form-control">
+                </div>
+                <div>
+                  <label for="body">Body</label>
+                  <textarea ng-init="edit.body = post.body" ng-model="edit.body" class="form-control"  required></textarea>
+                </div>
+                <div>
+                    <label for="author">Author</label>
+                    <input ng-init="edit.author = post.author" ng-model="edit.author" class="form-control">
+                </div>
+                <div>
+                  <label for="image-url">Image URL</label>
+                  <input ng-init="edit.image_url = post.image_url" class="form-control" ng-model="edit.image_url">
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary" ng-click="$ctrl.updatePost($event, post, edit); edit={}" ng-class="{'has-error' : $ctrl.makeNewPost.$invalid}">Update
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+
+
+
+          <div class="row" ng-if="post.commentsVisible">
+            <div class="col-md-offset-1">
+              <hr>
+              <div  ng-repeat="comment in post.comments">
+              <p ng-if="!comment.editing">
+                {{comment.content}}
+                <!-- <br> -->
+                <a class="glyphicon glyphicon-pencil" ng-click="$ctrl.toggleCommentEditor($event, post, comment)"></a>|<a class="glyphicon glyphicon-trash" ng-click="$ctrl.deleteComment($event,post, comment)"></a>
+              </p>
+              <div ng-if="comment.editing">
+                <form ng-submit="$ctrl.editComment($event, post, comment, commentEdit); commentEdit = ''">
+                <input class="form" ng-init="commentEdit = comment.content" ng-model="commentEdit">
+                <a class="glyphicon glyphicon-ok" ng-click="$ctrl.editComment($event, post, comment, commentEdit); commentEdit = ''"></a>
+              </form>
+                <!-- <button class="btn btn-primary" ng-click="$ctrl.editComment($event, post, comment, commentEdit); commentEdit = ''">apply changes</button> -->
+              </div>
+            </div>
+              <form class="form-inline" ng-submit="$ctrl.addComment($event, post, newComment); newComment=''">
+                <div class="form-group">
+                  <input class="form-control" ng-model="newComment">
+                </div>
+                <div class="form-group">
+                  <input type="submit" class="btn btn-primary">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
