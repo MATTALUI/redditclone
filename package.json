@@ -7,7 +7,7 @@
     "test-e2e": "NODE_ENV=test protractor test/e2e/conf.js",
     "test-server": "NODE_ENV=test mocha test/server",
     "test": "npm run test-server; npm run test-e2e",
-    "start": "gulp"
+    "start": "node app/app.js"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "mocha": "^2.5.3",
     "morgan": "~1.7.0",
     "nodemon": "^1.11.0",
+    "node": "0.0.0",
     "protractor": "latest",
     "protractor-jasmine2-screenshot-reporter": "latest",
     "sinon": "^1.17.4",
@@ -39,6 +40,10 @@
     "jquery": "^3.1.1",
     "knex": "^0.12.6",
     "moment": "^2.17.1",
+    "node": "0.0.0",
     "pg": "^6.1.2"
-  }
+  },
+  "engines": {
+  "node": "7.4.0"
+}
 }

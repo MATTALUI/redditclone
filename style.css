@@ -1,0 +1,9 @@
+/*.post{
+    background-color: lightgray;
+    border-style: solid;
+    display: flex;
+}*/
+img{
+  max-width: 300px;
+  max-height: 300px;
+}
