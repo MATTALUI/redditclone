@@ -32,5 +32,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500)
   res.json(err)
 })
+const port = process.env.PORT || 8000;
+app.listen(port, ()=>{
+  console.log('listening on 8000');
+})
 
 module.exports = app
