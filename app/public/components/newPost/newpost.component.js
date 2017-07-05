@@ -75,7 +75,7 @@ function postcontroller($http){
   }
   vm.checkSort = function(){
     switch (vm.sort){
-      case 'vote_count':
+      case '-vote_count':
         return 'Votes'
         break;
       case 'Date':
@@ -134,7 +134,7 @@ function postcontroller($http){
     $http.get('/api/posts').then(function(yoMomma){
       vm.posts = yoMomma.data;
     });
-    vm.sort = 'vote_count';
+    vm.sort = '-vote_count';
     vm.makingNew = false;
     // vm.posts= [
     //   {
