@@ -30,7 +30,7 @@
     <li class="dropdown form-inline" ng-init="sort='votes' ; sortName='Votes'">
        <a class="dropdown-toggle" data-toggle="dropdown" role="button">Sort By {{$ctrl.checkSort()}}<span class="caret"></span></a>
        <ul class="dropdown-menu">
-         <li><a ng-click="$ctrl.sort='vote_count'">Votes</a></li>
+         <li><a ng-click="$ctrl.sort='-vote_count'">Votes</a></li>
          <!-- <li><a ng-click="$ctrl.sort='Date'">Date</a></li> -->
          <li><a ng-click="$ctrl.sort='title'">Title</a></li>
        </ul>
