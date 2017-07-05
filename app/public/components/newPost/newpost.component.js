@@ -1,6 +1,6 @@
 (function(){
   angular
-  .module('app'  )
+  .module('app')
   .component('post', {
     templateUrl: `components/newPost/newpost.template.html`,
     controller: postcontroller
