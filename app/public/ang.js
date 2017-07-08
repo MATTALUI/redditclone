@@ -1,4 +1,4 @@
 (function(){
 angular
-.module('app', ['angularMoment'])
+.module('app', ['angularMoment', 'ui.router'])
 }());

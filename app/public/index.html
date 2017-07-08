@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="app">
   <head>
+    <base href="/">
     <meta charset="utf-8">
     <title>Reddit Clone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,17 +12,37 @@
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" charset="utf-8" defer></script>
     <link rel="stylesheet" href="style.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.js"></script>
     <script src="ang.js" charset="utf-8"></script>
+      <script src="https://unpkg.com/angular-ui-router@1.0.0-beta.3/release/angular-ui-router.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
     <script src="./components/newPost/newpost.component.js" charset="utf-8"></script>
+    <script src="./components/single/single.component.js" charset="utf-8"></script>
+    <script src="ang.config.js" charset="utf-8"></script>
   </head>
   <body>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">Yeah, it's not Reddit</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        </div>
+      </div>
+    </nav>
     <!-- <h1>Yeah, it's not Reddit</h1> -->
-    <post></post>
+    <!-- <post></post> -->
+    <ui-view></ui-view>
   </body>
 </html>
