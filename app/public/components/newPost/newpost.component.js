@@ -6,8 +6,8 @@
     controller: postcontroller
 })
 
-postcontroller.$inject = ['$http'];
-function postcontroller($http){
+postcontroller.$inject = ['$http', 'postsService'];
+function postcontroller($http, postsService){
   const vm = this;
   vm.removePost = function(event, post){
     let postNumber = vm.posts.indexOf(post)
@@ -131,9 +131,13 @@ function postcontroller($http){
     })
   }
   vm.$onInit = function(){
-    $http.get('/api/posts').then(function(yoMomma){
-      vm.posts = yoMomma.data;
-    });
+    // $http.get('/api/posts').then(function(yoMomma){
+    //   vm.posts = yoMomma.data;
+    // });
+    postsService.getAllPosts().then(function(post){
+      vm.posts = post;
+    })
+    console.log(postsService);
     vm.sort = '-vote_count';
     vm.makingNew = false;
     // vm.posts= [

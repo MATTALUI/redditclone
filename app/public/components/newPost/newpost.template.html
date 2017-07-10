@@ -82,7 +82,8 @@
               {{post.comments.length}} Comments
             </a>
             |
-            <a ng-click="$ctrl.toggleEditing($event, post);">edit</a>
+            <a ui-sref="editor({id: post.id})">edit</a>
+            <!-- <a ng-click="$ctrl.toggleEditing($event, post);">edit</a> -->
             |
             <a ng-click="$ctrl.removePost($event, post)">remove</a>
           </div>
