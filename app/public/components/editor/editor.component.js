@@ -5,15 +5,15 @@
     templateUrl: '/components/editor/editor.template.html',
     controller: editorController
   });
-  editorController.$inject = ['$http', '$stateParams'];
-  function editorController($http, $stateParams){
+  editorController.$inject = ['$http', '$stateParams', 'postsService'];
+  function editorController($http, $stateParams, postsService){
     const vm = this;
     vm.$onInit = function(){
-      $http.get('/api/posts').then(function(allPosts){
-        const postId = $stateParams.id;
-        vm.posts = allPosts.data;
-        vm.currentPost = vm.posts.find((post)=>{return post.id == postId});
+      postsService.getSinglePost($stateParams.id).then(function(response){
+        vm.currentPost = response;
       })
+
     }
+    vm.updatePost = postsService.updatePost;
   }
 })()

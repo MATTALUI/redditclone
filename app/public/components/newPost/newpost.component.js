@@ -9,14 +9,8 @@
 postcontroller.$inject = ['$http', 'postsService'];
 function postcontroller($http, postsService){
   const vm = this;
-  vm.removePost = function(event, post){
-    let postNumber = vm.posts.indexOf(post)
-    $http.delete(`/api/posts/${post.id}`)
-    .then(function(response){
-      console.log(response);
-      vm.posts.splice(postNumber, 1);
-    })
-  }
+  vm.removePost = postsService.removePost;
+  vm.addPost = postsService.addPost;
   vm.toggleEditing = function(event, post){
     let postNumber = vm.posts.indexOf(post);
     if(vm.posts[postNumber].editing){
@@ -34,9 +28,6 @@ function postcontroller($http, postsService){
         vm.posts[postNumber][key] = response.data[key];
       }
     });
-  }
-  vm.showPosts = function(){
-    console.log(vm.posts);
   }
   vm.showComments = function(event, post){
     let postNumber = vm.posts.indexOf(post);
@@ -62,16 +53,6 @@ function postcontroller($http, postsService){
     .then(function(response){
       vm.posts[index].vote_count = response.data.vote_count;
     });
-  }
-  vm.addPost= function(){
-    $http.post('/api/posts', vm.newPost)
-    .then(function(response){
-      response.data.comments = [];
-      vm.posts.push(response.data);
-    })
-
-    delete vm.newPost;
-    vm.makingNew = false;
   }
   vm.checkSort = function(){
     switch (vm.sort){
@@ -131,37 +112,11 @@ function postcontroller($http, postsService){
     })
   }
   vm.$onInit = function(){
-    // $http.get('/api/posts').then(function(yoMomma){
-    //   vm.posts = yoMomma.data;
-    // });
     postsService.getAllPosts().then(function(post){
       vm.posts = post;
     })
-    console.log(postsService);
     vm.sort = '-vote_count';
     vm.makingNew = false;
-    // vm.posts= [
-    //   {
-    //     title: 'Sample post',
-    //     vote_count: 4,
-    //     commentsVisible: false,
-    //     body: 'I ate 49 hotdogs; I feel sick.',
-    //     author: 'a hipster',
-    //     image: 'https://static.pexels.com/photos/69212/pexels-photo-69212.jpeg',
-    //     comments: ['This is a cool sample post, man.', 'meh. I seen better.'],
-    //     created_at: new Date()
-    //   },
-    //   {
-    //     title: 'Post by guy #2',
-    //     vote_count: 9,
-    //     commentsVisible: false,
-    //     body: 'Guy #1 is lame',
-    //     author: 'guy #2',
-    //     image: 'http://lorempixel.com/400/400/',
-    //     comments: ['Guy #1 here, I don\'t think that I am lame.', 'you\'re right!'],
-    //     created_at: new Date()
-    //   }
-    // ]
   }
 }
 }());

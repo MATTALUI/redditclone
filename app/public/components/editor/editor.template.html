@@ -21,7 +21,7 @@
         <input class="form-control" ng-model="$ctrl.currentPost.image_url">
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary" ng-click="$ctrl.updatePost($event, post, edit);" ng-class="{'has-error' : $ctrl.makeNewPost.$invalid}">Update
+        <button type="submit" class="btn btn-primary" ng-click="$ctrl.updatePost($ctrl.currentPost);" ng-class="{'has-error' : $ctrl.makeNewPost.$invalid}">Update
         </button>
       </div>
     </form>
