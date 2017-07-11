@@ -39,5 +39,17 @@
         $state.go('home');
       })
     }
+    this.upvote = function(post){
+      let index = this.posts.indexOf(post);
+      return $http.post(`api/posts/${post.id}/votes`).then((resp)=>{
+        return this.posts[index].vote_count++
+      });
+    }
+    this.downvote = function(post){
+      let index = this.posts.indexOf(post);
+      return $http.delete(`api/posts/${post.id}/votes`).then((resp)=>{
+        return this.posts[index].vote_count--
+      });
+    }
   }
 })()

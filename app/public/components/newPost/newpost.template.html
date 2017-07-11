@@ -1,4 +1,3 @@
-
 <main class="container">
 
   <div class="pull-right" ng-click="$ctrl.toggle()">
@@ -15,7 +14,6 @@
        <a class="dropdown-toggle" data-toggle="dropdown" role="button">Sort By {{$ctrl.checkSort()}}<span class="caret"></span></a>
        <ul class="dropdown-menu">
          <li><a ng-click="$ctrl.sort='-vote_count'">Votes</a></li>
-         <!-- <li><a ng-click="$ctrl.sort='Date'">Date</a></li> -->
          <li><a ng-click="$ctrl.sort='title'">Title</a></li>
        </ul>
      </li>
@@ -63,8 +61,8 @@
           <h4 class="media-heading">
             <a ui-sref="single({id:post.id})">{{post.title}}</a>
             |
-            <a ><i ng-click="$ctrl.upvote($event, post)" class="glyphicon glyphicon-arrow-up"></i></a>
-            <a ng-click="$ctrl.downvote($event, post)"><i class="glyphicon glyphicon-arrow-down"></i></a>
+            <a ><i ng-click="$ctrl.upvote( post)" class="glyphicon glyphicon-arrow-up"></i></a>
+            <a ng-click="$ctrl.downvote(post)"><i class="glyphicon glyphicon-arrow-down"></i></a>
             {{post.vote_count}}
           </h4>
           <div class="text-right">
@@ -75,7 +73,6 @@
             </p>
           <div>
             <span am-time-ago="post.created_at"></span>
-            <!-- {{post.created_at}} -->
             |
             <i class="glyphicon glyphicon-comment"></i>
             <a ng-click="$ctrl.showComments($event, post)">
@@ -83,9 +80,7 @@
             </a>
             |
             <a ui-sref="editor({id: post.id})">edit</a>
-            <!-- <a ng-click="$ctrl.toggleEditing($event, post);">edit</a> -->
             |
-            <!-- <a ng-click="$ctrl.removePost($event, post)">remove</a> -->
             <a ng-click="$ctrl.removePost(post)">remove</a>
           </div>
 
@@ -130,17 +125,16 @@
               <p ng-if="!comment.editing">
                 {{comment.content}}
                 <!-- <br> -->
-                <a class="glyphicon glyphicon-pencil" ng-click="$ctrl.toggleCommentEditor($event, post, comment)"></a>|<a class="glyphicon glyphicon-trash" ng-click="$ctrl.deleteComment($event,post, comment)"></a>
+                <a class="glyphicon glyphicon-pencil" ng-click="$ctrl.toggleCommentEditor($event, post, comment)"></a>|<a class="glyphicon glyphicon-trash" ng-click="$ctrl.deleteComment(post, comment)"></a>
               </p>
               <div ng-if="comment.editing">
-                <form ng-submit="$ctrl.editComment($event, post, comment, commentEdit); commentEdit = ''">
+                <form ng-submit="$ctrl.editComment(post, comment, commentEdit); commentEdit = ''">
                 <input class="form" ng-init="commentEdit = comment.content" ng-model="commentEdit">
-                <a class="glyphicon glyphicon-ok" ng-click="$ctrl.editComment($event, post, comment, commentEdit); commentEdit = ''"></a>
+                <a class="glyphicon glyphicon-ok" ng-click="$ctrl.editComment(post, comment, commentEdit); commentEdit = ''"></a>
               </form>
-                <!-- <button class="btn btn-primary" ng-click="$ctrl.editComment($event, post, comment, commentEdit); commentEdit = ''">apply changes</button> -->
               </div>
             </div>
-              <form class="form-inline" ng-submit="$ctrl.addComment($event, post, newComment); newComment=''">
+              <form class="form-inline" ng-submit="$ctrl.addComment( post, newComment); newComment=''">
                 <div class="form-group">
                   <input class="form-control" ng-model="newComment">
                 </div>
